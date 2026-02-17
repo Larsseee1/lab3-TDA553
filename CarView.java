@@ -4,6 +4,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * This class represents the full view of the MVC pattern of your car simulator.
@@ -18,6 +19,7 @@ public class CarView extends JFrame{
     private static final int Y = 800;
 
     // The controller member
+
     CarController carC;
 
     DrawPanel drawPanel = new DrawPanel(X, Y-240);
@@ -42,6 +44,8 @@ public class CarView extends JFrame{
     // Constructor
     public CarView(String framename, CarController cc){
         this.carC = cc;
+
+        DrawPanel drawPanel = new DrawPanel(X, Y-240);
         initComponents(framename);
     }
 
@@ -116,25 +120,62 @@ public class CarView extends JFrame{
         turboOnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //fixa
+                for (Car car: carC.cars){
+                    if (car instanceof Saab95){
+                        ((Saab95) car).setTurboOn();
+                    }
+                }
             }
         });
         turboOffButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //fix
+                for (Car car: carC.cars){
+                    if(car instanceof Saab95){
+                        ((Saab95) car).setTurboOff();}
+                }
             }
         });
         lowerBedButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //fixa
+                for (Car car: carC.cars){
+                    if(car instanceof Scania){
+                        ((Scania) car).incAngle(1);
+                    }
+                    else if (car instanceof CarTransport){
+                        ((CarTransport) car).lowerRamp();
+                    }
+                }
             }
         });
         liftBedButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //fixa
+                for (Car car: carC.cars){
+                    if(car instanceof Scania){
+                        ((Scania) car).decAngle(1);
+                    }
+                    else if (car instanceof CarTransport){
+                        ((CarTransport) car).raiseRamp();
+                    }
+                }
+            }
+        });
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(Car car:carC.cars){
+                    car.startEngine();
+                }
+            }
+        });
+        stopButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(Car car: carC.cars){
+                    car.stopEngine();
+                }
             }
         });
         // Make the frame pack all it's components by respecting the sizes if possible.

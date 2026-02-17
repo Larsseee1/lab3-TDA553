@@ -33,7 +33,10 @@ public class CarController {
         cc.cars.add(new Saab95());
         // Start a new view and send a reference of self
         cc.frame = new CarView("CarSim 1.0", cc);
-
+        //Turn right
+        for(Car car: cc.cars){
+            car.turnRight();
+        }
         // Start the timer
         cc.timer.start();
     }
@@ -43,11 +46,22 @@ public class CarController {
     * */
     private class TimerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-           for (Car car : cars) {
-               //Skapa en if-sats så bilen ej kan åka utanför bild
-                car.move();
+
+
+            for (Car car : cars) {
                 int x = (int) Math.round(car.getX());
                 int y = (int) Math.round(car.getY());
+               //Skapa en if-sats så bilen ej kan åka utanför bild
+                if(car.getX() >= 0 && car.getX() <= 686){
+                    car.move();
+                    x = (int) Math.round(car.getX());
+                    y = (int) Math.round(car.getY());}
+                else{
+                    car.turnLeft();
+                    car.turnLeft();
+                    car.move();
+                }
+
 
                 frame.drawPanel.moveit(x, y);
                 // repaint() calls the paintComponent method of the panel
@@ -66,17 +80,7 @@ public class CarController {
     void brake(int amount) {
         double gas = ((double) amount) / 100;
         for (Car car : cars) {
-            car.gas(gas);
-        }
-    }
-    void startall(){
-        for (Car car:cars){
-            car.startEngine();
-        }
-    }
-    void stopall(){
-        for (Car car:cars){
-            car.stopEngine();
+            car.brake(gas);
         }
     }
 }
