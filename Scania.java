@@ -2,12 +2,12 @@ import java.awt.*;
 public class Scania extends Truck{
     @Override
     public double speedFactor() {
-        return 0;
+        return getEnginePower() * 0.01;
     }
     public Scania(){
         super(2,300,0, Color.DARK_GRAY,"Scania",0,0,"NORTH");
     }
-    private double angle;
+    protected double angle;
     public double getAngle() {
         return angle;
     }
@@ -15,6 +15,7 @@ public class Scania extends Truck{
         if (angle+amount > 70 || angle+amount < 0 || isMoving()) {
             throw new IllegalArgumentException("Can't reach that angle");
         }
+
          else {
             angle += amount;
             if (angle == 0) {

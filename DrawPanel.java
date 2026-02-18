@@ -10,7 +10,7 @@ import javax.swing.*;
 
 public class DrawPanel extends JPanel{
     ArrayList<Car> cars = new ArrayList<>();
-
+    WorkShop<Volvo240> volvoWorkshop = new WorkShop<>();
     DrawPanel(int x, int y, ArrayList<Car> cars){
         this.setDoubleBuffered(true);
         this.setPreferredSize(new Dimension(x, y));
@@ -27,6 +27,7 @@ public class DrawPanel extends JPanel{
             volvoImage = ImageIO.read(DrawPanel.class.getResourceAsStream("pics/Volvo240.jpg"));
             volvoWorkshopImage = ImageIO.read(DrawPanel.class.getResourceAsStream("pics/VolvoBrand.jpg"));
             Saab95Image = ImageIO.read(DrawPanel.class.getResourceAsStream("pics/Saab95.jpg"));
+            ScaniaImage = ImageIO.read(DrawPanel.class.getResourceAsStream("pics/Scania.jpg"));
         } catch (IOException ex)
         {
             ex.printStackTrace();
@@ -36,16 +37,17 @@ public class DrawPanel extends JPanel{
     // Just a single image, TODO: Generalize
     BufferedImage volvoImage;
     BufferedImage Saab95Image;
-    BufferedImage Scania;
+    BufferedImage ScaniaImage;
     // To keep track of a single car's position
 
 
-    Point volvoPoint = new Point();
+    public Point volvoPoint = new Point();
 
     BufferedImage volvoWorkshopImage;
-    Point volvoWorkshopPoint = new Point(300,300);
+    Point volvoWorkshopPoint = new Point(300,100);
 
     // TODO: Make this general for all cars
+
     void moveit(int x, int y){
         volvoPoint.x = x;
         volvoPoint.y = y;
@@ -79,7 +81,22 @@ public class DrawPanel extends JPanel{
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(volvoImage, volvoPoint.x, volvoPoint.y, null); // see javadoc for more info on the parameters
+        int offset = 0;
+        for (Car car:cars){
+            if (car instanceof Volvo240) {
+                g.drawImage(volvoImage, (int)car.getX(), (int)car.getY() + offset, null);
+            }
+            else if (car instanceof Saab95) {
+                g.drawImage(Saab95Image, (int)car.getX(), (int)car.getY() + offset, null);
+            }
+            else if (car instanceof Scania) {
+                g.drawImage(ScaniaImage, (int)car.getX(), (int)car.getY() + offset, null);
+            }
+            offset += 100;
+        }
+
+
+        //g.drawImage(volvoImage, volvoPoint.x, volvoPoint.y, null); // see javadoc for more info on the parameters
         g.drawImage(volvoWorkshopImage, volvoWorkshopPoint.x, volvoWorkshopPoint.y, null);
     }
 }
