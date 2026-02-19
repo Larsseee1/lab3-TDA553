@@ -45,7 +45,7 @@ public class CarView extends JFrame {
     public CarView(String framename, CarController cc) {
         this.carC = cc;
         this.drawPanel = new DrawPanel(X, Y - 240, carC.cars);
-        DrawPanel drawPanel = new DrawPanel(X, Y - 240);
+        //DrawPanel drawPanel = new DrawPanel(X, Y - 240);
         initComponents(framename);
     }
 

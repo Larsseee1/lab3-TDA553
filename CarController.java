@@ -35,9 +35,13 @@ public class CarController {
         //cc.cars.add(new Saab95());
         // Start a new view and send a reference of self
         cc.frame = new CarView("CarSim 1.0", cc);
+        int offset = 0;
         //Turn right
+
         for(Car car: cc.cars){
             car.turnRight();
+            car.setyPos(offset);
+            offset += 100;
         }
         // Start the timer
         cc.timer.start();
@@ -65,8 +69,7 @@ public class CarController {
                     car.move();
                 }
 
-                if (Math.abs(car.getX() - 300) < 50 &&
-                        Math.abs(car.getY() - 50) < 50) {
+                if (car.getX() > 300 && car instanceof Volvo240) {
                     volvoWorkshop.LoadCars((Volvo240) car);
                 }
 

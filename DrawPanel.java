@@ -10,7 +10,7 @@ import javax.swing.*;
 
 public class DrawPanel extends JPanel{
     ArrayList<Car> cars = new ArrayList<>();
-    WorkShop<Volvo240> volvoWorkshop = new WorkShop<>();
+
     DrawPanel(int x, int y, ArrayList<Car> cars){
         this.setDoubleBuffered(true);
         this.setPreferredSize(new Dimension(x, y));
@@ -44,7 +44,7 @@ public class DrawPanel extends JPanel{
     public Point volvoPoint = new Point();
 
     BufferedImage volvoWorkshopImage;
-    Point volvoWorkshopPoint = new Point(300,100);
+    Point volvoWorkshopPoint = new Point(300,0);
 
     // TODO: Make this general for all cars
 
@@ -81,18 +81,18 @@ public class DrawPanel extends JPanel{
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int offset = 0;
+
         for (Car car:cars){
             if (car instanceof Volvo240) {
-                g.drawImage(volvoImage, (int)car.getX(), (int)car.getY() + offset, null);
+                g.drawImage(volvoImage, (int)car.getX(), (int)car.getY(), null);
             }
             else if (car instanceof Saab95) {
-                g.drawImage(Saab95Image, (int)car.getX(), (int)car.getY() + offset, null);
+                g.drawImage(Saab95Image, (int)car.getX(), (int)car.getY(), null);
             }
             else if (car instanceof Scania) {
-                g.drawImage(ScaniaImage, (int)car.getX(), (int)car.getY() + offset, null);
+                g.drawImage(ScaniaImage, (int)car.getX(), (int)car.getY(), null);
             }
-            offset += 100;
+
         }
 
 
