@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 /*
 * This class represents the Controller part in the MVC pattern.
@@ -22,15 +23,15 @@ public class CarController {
     CarView frame;
     // A list of cars, modify if needed
     ArrayList<Car> cars = new ArrayList<>();
-    WorkShop<Volvo240> volvoWorkshop = new WorkShop<>(300,0);
+    WorkShop<Volvo240> volvoWorkshop = new WorkShop<>(300,30);
     //methods:
 
     public static void main(String[] args) {
         // Instance of this class
         CarController cc = new CarController();
-
         cc.cars.add(new Saab95());
         cc.cars.add(new Volvo240());
+        cc.cars.add(new Scania());
         //cc.cars.add(new Scania());
         //cc.cars.add(new Saab95());
         // Start a new view and send a reference of self
@@ -50,16 +51,19 @@ public class CarController {
     /* Each step the TimerListener moves all the cars in the list and tells the
     * view to update its images. Change this method to your needs.
     * */
+    ArrayList<Volvo240> loaded = new ArrayList<>();
     private class TimerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-
-
             for (Car car : cars) {
                 int x = (int) Math.round(car.getX());
                 int y = (int) Math.round(car.getY());
                 //Skapa en if-sats så bilen ej kan åka utanför bild
                 if (car.getX() >= 0 && car.getX() <= 686) {
-
+                    if(loaded.contains(car)){
+                        car.setxPos(volvoWorkshop.getX());
+                        car.setyPos(volvoWorkshop.getY());
+                        car.stopEngine();
+                    }
                     car.move();
                     x = (int) Math.round(car.getX());
                     y = (int) Math.round(car.getY());
@@ -68,9 +72,22 @@ public class CarController {
                     car.turnLeft();
                     car.move();
                 }
+                double xdistanceToWorkshop = Math.abs(car.getX()-volvoWorkshop.getX());
+                double ydistanceToWorkshop = Math.abs(car.getY()-volvoWorkshop.getY());
+                if (0 < xdistanceToWorkshop && xdistanceToWorkshop < 101) {
+                    if(0 < ydistanceToWorkshop && ydistanceToWorkshop < 96) {
+                        if(car instanceof Volvo240) {
+                            volvoWorkshop.LoadCars((Volvo240) car);
+                            loaded.add((Volvo240) car);
+                        }
+                        else{
+                            car.turnLeft();
+                            car.turnLeft();
+                        }
 
-                if (car.getX() > 300 && car instanceof Volvo240) {
-                    volvoWorkshop.LoadCars((Volvo240) car);
+                    }
+
+
                 }
 
 
@@ -83,11 +100,12 @@ public class CarController {
 
         // Calls the gas method for each car once
         void gas(int amount) {
-
             double gas = ((double) amount) / 100;
             for (Car car : cars) {
                 car.gas(gas);
                 System.out.println(car.getCurrentSpeed());
+
+
             }
         }
 

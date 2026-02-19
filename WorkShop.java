@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 public class WorkShop<T extends Car> {
-    public double x;
-    public double y;
-    public WorkShop(double x, double y){
+    public int x;
+    public int y;
+    public WorkShop(int x, int y){
         this.x = x;
         this.y = y;
     }

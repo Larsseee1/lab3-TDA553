@@ -10,12 +10,13 @@ import javax.swing.*;
 
 public class DrawPanel extends JPanel{
     ArrayList<Car> cars = new ArrayList<>();
-
-    DrawPanel(int x, int y, ArrayList<Car> cars){
+    WorkShop<Volvo240> volvoWorkshop = new WorkShop<>();
+    DrawPanel(int x, int y, ArrayList<Car> cars,WorkShop<Volvo240> volvoWorkshop){
         this.setDoubleBuffered(true);
         this.setPreferredSize(new Dimension(x, y));
         this.setBackground(Color.green);
         this.cars = cars;
+        this.volvoWorkshop = volvoWorkshop;
 
         try {
             // You can remove the "pics" part if running outside of IntelliJ and
@@ -44,7 +45,7 @@ public class DrawPanel extends JPanel{
     public Point volvoPoint = new Point();
 
     BufferedImage volvoWorkshopImage;
-    Point volvoWorkshopPoint = new Point(300,0);
+    Point volvoWorkshopPoint = new Point(300,30);
 
     // TODO: Make this general for all cars
 
@@ -81,7 +82,6 @@ public class DrawPanel extends JPanel{
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         for (Car car:cars){
             if (car instanceof Volvo240) {
                 g.drawImage(volvoImage, (int)car.getX(), (int)car.getY(), null);
@@ -97,6 +97,6 @@ public class DrawPanel extends JPanel{
 
 
         //g.drawImage(volvoImage, volvoPoint.x, volvoPoint.y, null); // see javadoc for more info on the parameters
-        g.drawImage(volvoWorkshopImage, volvoWorkshopPoint.x, volvoWorkshopPoint.y, null);
+        g.drawImage(volvoWorkshopImage, (int) volvoWorkshop.getX(), (int) volvoWorkshop.getY(), null);
     }
 }
